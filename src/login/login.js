@@ -1,22 +1,20 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import Head from '../components/head/head'
-import List from 'antd-mobile/lib/list/index'
-import InputItem from 'antd-mobile/lib/input-item/index'
-import Button from 'antd-mobile/lib/button/index'
-import WhiteSpace from 'antd-mobile/lib/white-space/index'
-import 'antd-mobile/lib/input-item/style/index.css'
-import 'antd-mobile/lib/list/style/index.css'
-import 'antd-mobile/lib/button/style/index.css'
-import 'antd-mobile/lib/white-space/style/index.css'
-import { login } from '../redux/redux'
+import { Button, WhiteSpace, List, InputItem, Toast } from 'antd-mobile'
+import { Login } from '../redux/redux'
 import { connect } from 'react-redux'
 
 @connect(
-    state => state.user,
-    {login}
+    state => {
+        return {
+          user: state.user,
+          isLogin: state.isLogin
+        }
+    },
+    {Login}
 )
-class Login extends React.Component{
+class LoginComponent extends React.Component{
     constructor(props){
         super(props),
         this.state = {
@@ -24,6 +22,9 @@ class Login extends React.Component{
             pwd: ''
         },
         this.login = this.login.bind(this)
+    }
+    componentDidMount () {
+        //console.log(this.props.user, this.props.isLogin)
     }
     inputChange (type, value) {
         console.log(value)
@@ -33,7 +34,7 @@ class Login extends React.Component{
     }
     login () {
         console.log(this.state)
-        this.props.login(this.state)
+        this.props.Login(this.state)
     }
     render () {
         return (
@@ -49,9 +50,10 @@ class Login extends React.Component{
                 <Link to='/register'>
                     <Button type='primary'>注册</Button>
                 </Link>
+
             </div>
         )
     }
 }
 
-export default Login;
+export default LoginComponent;

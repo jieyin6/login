@@ -1,11 +1,12 @@
 import React from 'react'
 import './head.css'
+import img from './react.png'
 
 class Head extends React.Component{
     render() {
         return (
             <div className="logo">
-                <img src={'./react.png'} alt=''/>
+                <img src={img} alt=''/>
             </div>
         )
     }

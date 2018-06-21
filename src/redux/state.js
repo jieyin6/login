@@ -2,5 +2,6 @@ export const initState = {
     redirectTo:'', 
     msg: '',
     user: '',
-    type: ''
+    type: '',
+    isLogin:''
 } 

@@ -1,31 +1,61 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { Register } from '../redux/redux'
 import Head from '../components/head/head'
-import List from 'antd-mobile/lib/list/index'
-import InputItem from 'antd-mobile/lib/input-item/index'
-import Button from 'antd-mobile/lib/button/index'
-import WhiteSpace from 'antd-mobile/lib/white-space/index'
-import Radio from 'antd-mobile/lib/radio/index'
-import 'antd-mobile/lib/input-item/style/index.css'
-import 'antd-mobile/lib/list/style/index.css'
-import 'antd-mobile/lib/button/style/index.css'
-import 'antd-mobile/lib/white-space/style/index.css'
-import 'antd-mobile/lib/radio/style/index.css'
+import axios from 'axios'
+import {List, InputItem, Button, WhiteSpace, Radio, Toast} from 'antd-mobile'
+import { connect } from 'react-redux'
 
 const RadioItem = Radio.RadioItem
 
-class Register extends React.Component {
+@connect(
+   state => state.user,
+   { Register }
+)
+class RegisterComponent extends React.Component {
     constructor(props){
         super(props)
         this.state = {
-            radio: 0
+            radio: 0,
+            user:'',
+            pwd:'',
+            pwd2:''
         }
         //this.RadioChange = this.RadioChange.bind(this)
+        this.registerEvent = this.registerEvent.bind(this)
+        this.isNamed = this.isNamed.bind(this)
     }
     RadioChange (value) {
       this.setState({
           radio: value
       })
+    }
+    inputChange(type, value) {
+        this.setState({
+            [type]: value
+        })
+        const {user, pwd, pwd2} = this.state
+        if(user) {
+            this.isNamed(user)
+        }
+        if(pwd && pwd2 && pwd === pwd2) {
+            Toast.info('密码不一致', 1);
+        }
+    }
+    isNamed (user) {
+        axios.get('/user/isnamed',user).then(res => {
+            if(res.data.status === 1) {
+                Toast.info('该用户名已被注册', 1)
+            }
+        })
+    }
+    registerEvent () {
+        const {user, pwd, pwd2} = this.state
+        if(user && pwd && pwd2 && pwd !== pwd2) {
+            this.props.Register(user, pwd)
+        }else{
+            Toast.info('请正确输入', 1)
+        }
     }
     render () {
         const { radio } = this.state;
@@ -37,9 +67,9 @@ class Register extends React.Component {
             <div>
                 <Head></Head>
                 <List>
-                    <InputItem clear placeholder="请输入用户名" >用户名</InputItem>
-                    <InputItem clear placeholder="请输入密码">密码</InputItem>
-                    <InputItem clear placeholder="请再次输入密码">密码</InputItem>
+                    <InputItem clear placeholder="请输入用户名" onChange={w => this.inputChange('user', w)} >用户名</InputItem>
+                    <InputItem clear placeholder="请输入密码" onChange={w => this.inputChange('pwd', w)}>密码</InputItem>
+                    <InputItem clear placeholder="请再次输入密码" onChange={w => this.inputChange('pwd2', w)}>密码</InputItem>
                     {data.map(i => {
                         <div>111</div>
                        {/* <RadioItem key={i.value} checked={radio === i.value}
@@ -49,7 +79,7 @@ class Register extends React.Component {
                     })}
                 </List>
                 <WhiteSpace></WhiteSpace>
-                <Button type='primary'>注册</Button>
+                <Button type='primary' onClick={this.registerEvent}>注册</Button>
                 <WhiteSpace></WhiteSpace>
                 <Link to='/login'>
                     <Button type='primary'>返回</Button>
@@ -59,4 +89,4 @@ class Register extends React.Component {
     }
 }
 
-export default Register;
+export default RegisterComponent;

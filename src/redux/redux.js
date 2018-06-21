@@ -6,6 +6,8 @@ export function user (state = initState, action) {
     switch (action.type) {
       case types.LOGIN_SUCCESS :
         return state
+      case types.ERR_MESSAGE :
+        return {...state, isLogin: false, msg:action.payload}
       default :
         return state
     }
@@ -18,11 +20,11 @@ const loginSuccess = (data) => {
         payload: data
     }
 }
-//报错
+//报错信息
 function errorTip (msg) {
     return {
-        msg,
-        type: 'err_msg'
+        type:types.ERR_MESSAGE,
+        payload: msg
     }
 }
 
@@ -33,16 +35,28 @@ export function Login ({user, pwd}) {
     }
     console.log('axios')
     return dispatch => {
-        axios.post('/users/login',{
+        axios.get('/users/login',{
             user,
             pwd
         }).then(res => {
             if(res.data.status == 0){
+                console.log('登陆成功')
                 dispatch(loginSuccess(res.data.data))
             }else{
+                console.log('登录失败')
                 dispatch(errorTip(res.data.message))
             }
         })
     }
-    
+}
+export function Register ({user, pwd}) {
+    console.log('register axios')
+    return dispatch => {
+        axios.post('/user/register',{
+            user,
+            pwd
+        }).then(res => {
+            
+        })
+    }
 }
