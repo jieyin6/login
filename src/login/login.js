@@ -1,17 +1,19 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, withRouter, Redirect} from 'react-router-dom'
 import Head from '../components/head/head'
 import { Button, WhiteSpace, List, InputItem, Toast } from 'antd-mobile'
 import { Login } from '../redux/redux'
 import { connect } from 'react-redux'
 
+const mapStateToProps = (state) => {
+    return {
+         user: state.user,
+         isLogin: state.isLogin
+    }
+  }
+
 @connect(
-    state => {
-        return {
-          user: state.user,
-          isLogin: state.isLogin
-        }
-    },
+    mapStateToProps,
     {Login}
 )
 class LoginComponent extends React.Component{
@@ -20,7 +22,7 @@ class LoginComponent extends React.Component{
         this.state = {
             user: '',
             pwd: ''
-        },
+        }
         this.login = this.login.bind(this)
     }
     componentDidMount () {
@@ -34,8 +36,9 @@ class LoginComponent extends React.Component{
     }
     login () {
         console.log(this.state)
-        this.props.Login(this.state)
+        this.props.Login(this.state.user,this.state.pwd)
     }
+   
     render () {
         return (
             <div>
@@ -50,10 +53,10 @@ class LoginComponent extends React.Component{
                 <Link to='/register'>
                     <Button type='primary'>注册</Button>
                 </Link>
-
+                {this.props.user.isLogin ? <Redirect to='/hello'></Redirect>: null}
             </div>
         )
     }
 }
 
-export default LoginComponent;
+export default withRouter(LoginComponent);

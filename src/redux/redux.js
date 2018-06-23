@@ -5,7 +5,7 @@ import { initState } from './state'
 export function user (state = initState, action) {
     switch (action.type) {
       case types.LOGIN_SUCCESS :
-        return state
+        return {...state, isLogin: true, user:action.payload }
       case types.ERR_MESSAGE :
         return {...state, isLogin: false, msg:action.payload}
       default :
@@ -29,13 +29,13 @@ function errorTip (msg) {
 }
 
 //登录
-export function Login ({user, pwd}) {
+export function Login (user, pwd) {
     if ( !user || !pwd ) {
         errorTip('您未输入用户名或密码')
     }
-    console.log('axios')
+    console.log(user,pwd)
     return dispatch => {
-        axios.get('/users/login',{
+        axios.post('/users/login',{
             user,
             pwd
         }).then(res => {
@@ -49,14 +49,20 @@ export function Login ({user, pwd}) {
         })
     }
 }
-export function Register ({user, pwd}) {
+export function Register (user, pwd) {
     console.log('register axios')
     return dispatch => {
-        axios.post('/user/register',{
+        axios.post('/users/register',{
             user,
             pwd
         }).then(res => {
-            
+            if(res.data.status == 0) {
+                console.log(res.data.data)
+                dispatch(loginSuccess(res.data.data))
+            } else {
+                console.log(res.messages)
+                dispatch(errorTip(res.message))
+            }
         })
     }
 }

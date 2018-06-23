@@ -1,15 +1,21 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, withRouter, Redirect } from 'react-router-dom'
 import { Register } from '../redux/redux'
 import Head from '../components/head/head'
+import Hello from '../components/pages/hello'
 import axios from 'axios'
 import {List, InputItem, Button, WhiteSpace, Radio, Toast} from 'antd-mobile'
 import { connect } from 'react-redux'
 
 const RadioItem = Radio.RadioItem
 
+const mapStateToProps = (state) => {
+    return {
+        user: state.user
+    }
+  }
 @connect(
-   state => state.user,
+   mapStateToProps,
    { Register }
 )
 class RegisterComponent extends React.Component {
@@ -43,7 +49,7 @@ class RegisterComponent extends React.Component {
         }
     }
     isNamed (user) {
-        axios.get('/user/isnamed',user).then(res => {
+        axios.get('/users/isnamed',user).then(res => {
             if(res.data.status === 1) {
                 Toast.info('该用户名已被注册', 1)
             }
@@ -51,7 +57,8 @@ class RegisterComponent extends React.Component {
     }
     registerEvent () {
         const {user, pwd, pwd2} = this.state
-        if(user && pwd && pwd2 && pwd !== pwd2) {
+        console.log(user,pwd,pwd2)
+        if(user && pwd && pwd2 && pwd == pwd2) {
             this.props.Register(user, pwd)
         }else{
             Toast.info('请正确输入', 1)
@@ -84,9 +91,10 @@ class RegisterComponent extends React.Component {
                 <Link to='/login'>
                     <Button type='primary'>返回</Button>
                 </Link>
+                { this.props.user.isLogin ? <Redirect to='/hello'></Redirect> : null }
             </div>
         )
     }
 }
 
-export default RegisterComponent;
+export default  withRouter(RegisterComponent);

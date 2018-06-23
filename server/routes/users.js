@@ -4,13 +4,14 @@ var UserModel = require('../database/models/user.js')
 //var util = require('utility')
 //var _filter = {'pwd': 0, '_v': 0}
 /* GET users listing. */
-router.get('/login', function(req, res, next) {
-  console.log(111)
-  let param = {
-    username: req.user,
-    password: req.pwd
-  }
-  UserModel.findOne(param, function(err, doc){
+router.post('/login', function(req, res, next) {
+  console.log(req)
+  let user = req.body.user
+  let pwd = req.body.pwd
+  
+  console.log(user,pwd)
+  UserModel.findOne({user: user, pwd: pwd}, function(err, doc){
+    console.log(doc)
     if(!doc) {
       return res.json({
         status:'1',
@@ -52,7 +53,39 @@ router.get('/isnamed', function (req, res, next){
 
 router.post('/register', function (req, res, next) {
   console.log('/register')
-  
+  let user = req.body.user
+  let pwd = req.body.pwd
+  console.log(user, pwd)
+  UserModel.findOne({user: user, pwd: pwd}, function(err, doc){
+    console.log(err, doc)
+    if( doc == null) {
+      let newuser = new UserModel({
+        user: user,
+        pwd: pwd
+      })
+      newuser.save(function(err, doc){
+        if(err){
+          res.json({
+            status: '1',
+            message:'注册失败'
+          })
+        } else {
+           res.json({
+             status:'0',
+             message:'注册成功',
+             data:user
+           })
+        }
+      })
+    } else {
+      
+      res.json({
+        status:'10',
+        message:'该用户名已被注册'
+      })
+    
+  }
+  })
 })
 
 module.exports = router;
