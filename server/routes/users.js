@@ -25,7 +25,7 @@ router.post('/login', function(req, res, next) {
         })
         res.json({
           status:'0',
-          data:doc.user,
+          data:doc,
           message:'登录成功'
         })
       }
@@ -53,15 +53,15 @@ router.get('/isnamed', function (req, res, next){
 
 router.post('/register', function (req, res, next) {
   console.log('/register')
-  let user = req.body.user
-  let pwd = req.body.pwd
+  let {user, pwd, radio} = req.body
   console.log(user, pwd)
   UserModel.findOne({user: user, pwd: pwd}, function(err, doc){
     console.log(err, doc)
     if( doc == null) {
       let newuser = new UserModel({
         user: user,
-        pwd: pwd
+        pwd: pwd,
+        type: radio
       })
       newuser.save(function(err, doc){
         if(err){
@@ -73,7 +73,7 @@ router.post('/register', function (req, res, next) {
            res.json({
              status:'0',
              message:'注册成功',
-             data:user
+             data:doc
            })
         }
       })
@@ -85,6 +85,28 @@ router.post('/register', function (req, res, next) {
       })
     
   }
+  })
+})
+
+router.post('/updateInfo', function (req, res, next) {
+  console.log(req.body)
+  let user = req.body.users
+  UserModel.findOneAndUpdate({user: user}, req.body, function(err, doc) {
+    console.log(err, doc)
+    if(err) {
+      res.json({
+        status:'1',
+        message:'更新失败'
+      })
+    } else {
+      if( doc ) {
+        const data = Object.assign({}, doc, req.body)
+        res.json({
+          status:'0',
+          data:data
+        })
+      }
+    }
   })
 })
 

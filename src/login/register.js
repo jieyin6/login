@@ -22,7 +22,7 @@ class RegisterComponent extends React.Component {
     constructor(props){
         super(props)
         this.state = {
-            radio: 0,
+            radio: 'talents',
             user:'',
             pwd:'',
             pwd2:''
@@ -56,20 +56,27 @@ class RegisterComponent extends React.Component {
         })
     }
     registerEvent () {
-        const {user, pwd, pwd2} = this.state
+        const {user, pwd, pwd2, radio} = this.state
         console.log(user,pwd,pwd2)
         if(user && pwd && pwd2 && pwd == pwd2) {
-            this.props.Register(user, pwd)
+            this.props.Register(user, pwd, radio)
         }else{
             Toast.info('请正确输入', 1)
         }
     }
+    RadioChange () {
+        if(this.state.radio === 'boss') {
+            this.setState({
+                radio: 'talents'
+            })
+        } else {
+          this.setState({
+              radio: 'boss'
+          })   
+        }
+    }
     render () {
         const { radio } = this.state;
-        const data = [
-            {value: 0, label: '学生'},
-            {value: 1, label: '社会人士'}
-        ]
         return (
             <div>
                 <Head></Head>
@@ -77,13 +84,10 @@ class RegisterComponent extends React.Component {
                     <InputItem clear placeholder="请输入用户名" onChange={w => this.inputChange('user', w)} >用户名</InputItem>
                     <InputItem clear placeholder="请输入密码" onChange={w => this.inputChange('pwd', w)}>密码</InputItem>
                     <InputItem clear placeholder="请再次输入密码" onChange={w => this.inputChange('pwd2', w)}>密码</InputItem>
-                    {data.map(i => {
-                        <div>111</div>
-                       {/* <RadioItem key={i.value} checked={radio === i.value}
-                                   onChange= {()=> this.RadioChange(i.value)}
-                        >{i.label}</RadioItem>
-                    */}
-                    })}
+                     <RadioItem checked={radio === 'talents' } onChange= {()=> this.RadioChange()}
+                        >talents</RadioItem>
+                    <RadioItem checked={radio === 'boss'} onChange={ () => this.RadioChange()} >boss</RadioItem>
+                
                 </List>
                 <WhiteSpace></WhiteSpace>
                 <Button type='primary' onClick={this.registerEvent}>注册</Button>

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link, withRouter, Redirect} from 'react-router-dom'
+import { Link, Redirect} from 'react-router-dom'
 import Head from '../components/head/head'
 import { Button, WhiteSpace, List, InputItem, Toast } from 'antd-mobile'
 import { Login } from '../redux/redux'
@@ -53,10 +53,10 @@ class LoginComponent extends React.Component{
                 <Link to='/register'>
                     <Button type='primary'>注册</Button>
                 </Link>
-                {this.props.user.isLogin ? <Redirect to='/hello'></Redirect>: null}
+                { this.props.user.isLogin ? <Redirect to='/'></Redirect> : null }
             </div>
         )
     }
 }
 
-export default withRouter(LoginComponent);
+export default LoginComponent;
