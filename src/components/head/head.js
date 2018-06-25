@@ -3,7 +3,7 @@ import './head.css'
 import img from './react.png'
 
 class Head extends React.Component{
-    render() {
+    render () {
         return (
             <div className="logo">
                 <img src={img} alt=''/>

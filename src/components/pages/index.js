@@ -1,23 +1,23 @@
 import React, { Component } from 'react'
-import {withRouter } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import {Button, WhiteSpace } from 'antd-mobile'
+import {Button, WhiteSpace} from 'antd-mobile'
 const mapStateToProps = (state) => {
-    return {
-         user: state.user
-    }
+  return {
+    user: state.user
   }
+}
 
 @connect(mapStateToProps)
 
 class IndexComponent extends Component {
   constructor (props) {
-      super(props)
-      this.handleButton = this.handleButton.bind(this)
+    super(props)
+    this.handleButton = this.handleButton.bind(this)
   }
   handleButton () {
-      console.log(this.props)
-      this.props.history.push('/login')
+    console.log(this.props)
+    this.props.history.push('/login')
   }
   render() {
     return (
@@ -28,7 +28,7 @@ class IndexComponent extends Component {
             <p>当前未登录</p>
             <WhiteSpace></WhiteSpace>
             <Button type='primary' onClick={this.handleButton}>登录</Button>
-        </div>
+          </div>
         }
       </div>
     )

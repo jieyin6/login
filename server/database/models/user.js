@@ -16,12 +16,12 @@ const UserModel = new Schema({
         'require': true
     },
     'avatar': String,
-    'position':String,
-    'company':String,
-    'request':String,
-    'salary':String,
-    'job':String,
-    'mine':String
+    'position': String,
+    'company': String,
+    'request': String,
+    'salary': String,
+    'job': String,
+    'mine': String
 })
 
 module.exports =  mongoose.model('user', UserModel)

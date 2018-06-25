@@ -7,10 +7,10 @@ import { connect } from 'react-redux'
 
 const mapStateToProps = (state) => {
     return {
-         user: state.user,
-         isLogin: state.isLogin
+        user: state.user,
+        isLogin: state.isLogin
     }
-  }
+}
 
 @connect(
     mapStateToProps,
@@ -25,9 +25,6 @@ class LoginComponent extends React.Component{
         }
         this.login = this.login.bind(this)
     }
-    componentDidMount () {
-        //console.log(this.props.user, this.props.isLogin)
-    }
     inputChange (type, value) {
         console.log(value)
         this.setState({
@@ -36,7 +33,7 @@ class LoginComponent extends React.Component{
     }
     login () {
         console.log(this.state)
-        this.props.Login(this.state.user,this.state.pwd)
+        this.props.Login(this.state.user, this.state.pwd)
     }
    
     render () {

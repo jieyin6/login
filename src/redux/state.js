@@ -1,8 +1,8 @@
 export const initState = {
-    redirectTo:'', 
+    redirectTo: '', 
     msg: '',
     user: '',
     type: '',
-    isLogin:'',
-    isUpdate:''
+    isLogin: '',
+    isUpdate: ''
 } 

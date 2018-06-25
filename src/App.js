@@ -8,7 +8,7 @@ import IndexComponent from './components/pages/index'
 
 
 class App extends Component {
-  render() {
+  render () {
     return (
       <div className="App">
        <Switch>
