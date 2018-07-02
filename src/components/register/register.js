@@ -1,8 +1,8 @@
 import React from 'react'
 import { Link, withRouter, Redirect } from 'react-router-dom'
-import { Register } from '../redux/redux'
-import Head from '../components/head/head'
-import Hello from '../components/pages/hello'
+import { Register } from '../../redux/redux'
+import Head from '../head/head'
+import Hello from '../pages/registerDetail/hello'
 import axios from 'axios'
 import {List, InputItem, Button, WhiteSpace, Radio, Toast} from 'antd-mobile'
 import { connect } from 'react-redux'
@@ -40,7 +40,7 @@ class RegisterComponent extends React.Component {
         })
         const {user, pwd, pwd2} = this.state
         if (user) {
-            this.isNamed(user)
+            //this.isNamed(user)
         }
         if (pwd && pwd2 && pwd === pwd2) {
             Toast.info('密码不一致', 1);

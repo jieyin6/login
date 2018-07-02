@@ -1,7 +1,6 @@
 import axios from 'axios'
 import * as types from './action-types'
 import { initState } from './state'
-import { read } from 'fs';
 
 export function user (state = initState, action) {
     switch (action.type) {
@@ -16,6 +15,8 @@ export function user (state = initState, action) {
             return {...state, isLogin: false, msg: action.payload}
         case types.IS_UPDATE :
             return {...state, isUpdate: action.payload}
+        case types.INDEX_IS_LOGIN :
+            return {...state, ...action.payload}
         default :
             return state
         }
@@ -42,7 +43,13 @@ function updateAction (msg) {
         payload: msg
     }
 }
-
+//判断是否登录
+function indexIsLogin (msg) {
+    return {
+        type: types.INDEX_IS_LOGIN,
+        payload: msg
+    }
+}
 //登录
 export function Login (user, pwd) {
     if ( !user || !pwd ) {

@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom'
 import './App.css';
-import Login from './login/login'
-import Register from './login/register'
-import Hello from './components/pages/hello'
-import IndexComponent from './components/pages/index'
+import Login from './components/login/login'
+import Register from './components/register/register'
+import Hello from './components/pages/registerDetail/hello'
+import IndexComponent from './components/pages/index/index'
 
 
 class App extends Component {

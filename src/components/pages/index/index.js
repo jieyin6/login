@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
+import axios from 'axios'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import {Button, WhiteSpace, NavBar, Icon} from 'antd-mobile'
-import IndexTab from './indexTab/indexTab'
+import IndexTab from '../indexTab/indexTab'
 
 const mapStateToProps = (state) => {
   return {
@@ -15,20 +16,37 @@ const mapStateToProps = (state) => {
 class IndexComponent extends Component {
   constructor (props) {
     super(props)
+    this.state = {
+      IsLogin: ''
+    }
     this.handleButton = this.handleButton.bind(this)
   }
+  componentDidMount () {
+    let pathArr = ['/login', '/register']
+    let CurrentPath = this.props.location.pathname 
+    if (pathArr.indexOf(CurrentPath) > -1) {
+      return null
+    }
+    axios.get('/users/info').then(res => {
+      if (res.data.status == '0') {
+        this.props.indexIsLogin(res.data.data)
+        this.setState({
+          IsLogin: true
+        })
+      } else {
+        this.props.history.push('/login')
+      }
+    })
+  }
+  
   handleButton () {
     console.log(this.props)
     this.props.history.push('/login')
   }
   render() {
-    let indexPage =  () => {
-      return 
-    }
     return (
       <div>
-        
-        {this.props.user.isLogin && this.props.user.user 
+        { this.state.IsLogin
         ? <div>
             <NavBar
               mode="light"

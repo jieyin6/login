@@ -1,12 +1,37 @@
 var express = require('express');
 var router = express.Router();
 var UserModel = require('../database/models/user.js')
-router.post('/login', function(req, res, next) {
+router.get('/info', function (req, res) {
+  let userid = req.cookies.userid
+  if (!userid) {
+    return res.json({
+      status: '10',
+      msg: '当前没有userid'
+    })
+  }
+  UserModel.findOne({_id: userid}, function (err, doc) {
+    if (err) {
+      return res.json({
+        status: '1',
+        msg: '后端错误'
+      })
+    } else {
+      if (doc) {
+        return res.json({
+          status: '0',
+          data: doc,
+          msg: '查找成功'
+        })
+      }
+    }
+  })
+})
+router.post('/login', function (req, res, next) {
   console.log(req)
   let user = req.body.user
   let pwd = req.body.pwd
   console.log(user, pwd)
-  UserModel.findOne({user: user, pwd: pwd}, function(err, doc){
+  UserModel.findOne({user: user, pwd: pwd}, function (err, doc) {
     console.log(doc)
     if (!doc) {
       return res.json({
@@ -15,8 +40,7 @@ router.post('/login', function(req, res, next) {
       })
     } else {
       if (doc) {
-        res.cookie('user', doc.user, {
-          path: '/',
+        res.cookie('user', doc._id, {
           maxAge: 1000 * 60 * 60
         })
         res.json({
@@ -52,7 +76,7 @@ router.post('/register', function (req, res, next) {
   console.log(user, pwd)
   UserModel.findOne({user: user, pwd: pwd}, function (err, doc) {
     console.log(err, doc)
-    if ( doc == null) {
+    if ( doc == null ) {
       let newuser = new UserModel({
         user: user,
         pwd: pwd,
