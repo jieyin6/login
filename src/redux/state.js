@@ -6,3 +6,7 @@ export const initState = {
     isLogin: '',
     isUpdate: ''
 } 
+
+export const indexState = {
+    indexList: []
+}

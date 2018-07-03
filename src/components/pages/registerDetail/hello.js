@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import {List, InputItem, Button, WhiteSpace, TextareaItem, Toast} from 'antd-mobile'
-import { Update } from '../../../redux/redux'
+import { Update } from '../../../redux/user.redux'
 const mapStateToProps = (state) => {
   return {
     user: state.user
@@ -37,6 +37,7 @@ export default class HelloComponent extends Component {
     
   }
   render() {
+    console.log(this.props.user.redirectTo)
     return (
       <div>
         {  !this.props.user.user ? <p>没有登录呀</p>  : 
@@ -59,11 +60,11 @@ export default class HelloComponent extends Component {
           }
           <WhiteSpace></WhiteSpace>
           <Button onClick={this.updateButton} type='primary'>完成</Button>
+          <div>{this.props.user.redirectTo}</div>
         </div> 
         }
         <WhiteSpace></WhiteSpace>
-        <div>{this.props.user.isUpdate}</div>
-        {this.props.user.isUpdate == true ? <Redirect to='/'></Redirect> : null}
+        {this.props.user.redirectTo !== '' ? <Redirect to={this.props.user.redirectTo}></Redirect> : null}
         { this.props.user.msg == '更新失败' ? <div>更新失败</div> : null}
       </div>
     )

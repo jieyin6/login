@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import {Button, WhiteSpace, NavBar, Icon} from 'antd-mobile'
 import IndexTab from '../indexTab/indexTab'
+import { indexIsLogin } from '../../../redux/user.redux'
 
 const mapStateToProps = (state) => {
   return {
@@ -11,7 +12,10 @@ const mapStateToProps = (state) => {
   }
 }
 
-@connect(mapStateToProps)
+@connect(
+  mapStateToProps,
+  { indexIsLogin }
+)
 
 class IndexComponent extends Component {
   constructor (props) {
@@ -40,7 +44,6 @@ class IndexComponent extends Component {
   }
   
   handleButton () {
-    console.log(this.props)
     this.props.history.push('/login')
   }
   render() {

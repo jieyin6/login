@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { indexIsLogin } from '../../redux/redux'
+import { indexIsLogin } from '../../redux/user.redux'
 @withRouter
 @connect(
   null,

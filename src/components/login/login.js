@@ -2,7 +2,7 @@ import React from 'react'
 import { Link, Redirect} from 'react-router-dom'
 import Head from '../head/head'
 import { Button, WhiteSpace, List, InputItem, Toast } from 'antd-mobile'
-import { Login } from '../../redux/redux'
+import { Login } from '../../redux/user.redux'
 import { connect } from 'react-redux'
 
 const mapStateToProps = (state) => {

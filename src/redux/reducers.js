@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux'
 
-import { user } from './redux'
+import { user } from './user.redux'
+import { indexReducer } from './index.redux'
 
-export default combineReducers({user})
+export default combineReducers({user, indexReducer})

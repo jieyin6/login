@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link, withRouter, Redirect } from 'react-router-dom'
-import { Register } from '../../redux/redux'
+import { Register } from '../../redux/user.redux'
 import Head from '../head/head'
 import Hello from '../pages/registerDetail/hello'
 import axios from 'axios'
@@ -77,6 +77,7 @@ class RegisterComponent extends React.Component {
         const { radio } = this.state;
         return (
             <div>
+                {this.props.user.redirectTo ? <Redirect path={this.props.user.redirectTo}></Redirect> : null}
                 <Head></Head>
                 <List>
                     <InputItem clear placeholder="请输入用户名" onChange={w => this.inputChange('user', w)} >用户名</InputItem>

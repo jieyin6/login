@@ -14,7 +14,7 @@ export function user (state = initState, action) {
         case types.ERR_MESSAGE :
             return {...state, isLogin: false, msg: action.payload}
         case types.IS_UPDATE :
-            return {...state, isUpdate: action.payload}
+            return {...state, redirectTo: action.payload}
         case types.INDEX_IS_LOGIN :
             return {...state, ...action.payload}
         default :
@@ -37,14 +37,14 @@ function errorTip (msg) {
     }
 }
 // 更新 
-function updateAction (msg) {
+function updateAction (path) {
     return {
         type: types.IS_UPDATE,
-        payload: msg
+        payload: path
     }
 }
 //判断是否登录
-function indexIsLogin (msg) {
+export function indexIsLogin (msg) {
     return {
         type: types.INDEX_IS_LOGIN,
         payload: msg
@@ -104,7 +104,7 @@ export function Update(data, user) {
         }).then(res => {
             console.log(res.data.data)
             if (res.data.state == 0) {
-                dispatch(updateAction(true))
+                dispatch(updateAction('/'))
             } else {
                 dispatch(errorTip(res.data.message))
             }
@@ -121,7 +121,7 @@ export function Update(data, user) {
             }).then(res => {
                 console.log(res.data.data)
                 if (res.data.state == 0) {
-                    dispatch(updateAction(true))
+                    dispatch(updateAction('/'))
                 } else {
                     dispatch(errorTip(res.data.message))
                 }

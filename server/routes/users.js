@@ -3,6 +3,7 @@ var router = express.Router();
 var UserModel = require('../database/models/user.js')
 router.get('/info', function (req, res) {
   let userid = req.cookies.userid
+  console.log(userid)
   if (!userid) {
     return res.json({
       status: '10',
@@ -10,6 +11,7 @@ router.get('/info', function (req, res) {
     })
   }
   UserModel.findOne({_id: userid}, function (err, doc) {
+    console.log(doc)
     if (err) {
       return res.json({
         status: '1',
@@ -40,9 +42,7 @@ router.post('/login', function (req, res, next) {
       })
     } else {
       if (doc) {
-        res.cookie('user', doc._id, {
-          maxAge: 1000 * 60 * 60
-        })
+        res.cookie('userid', doc._id)
         res.json({
           status: '0',
           data: doc,
@@ -126,5 +126,26 @@ router.post('/updateInfo', function (req, res, next) {
     }
   })
 })
-
+//获取首页列表
+router.get('/list', function (req, res) {
+  let type = req.query.type
+  console.log( 'type'+ type)
+  UserModel.find({type: type}, function (err, doc) {
+    console.log(doc)
+    if (err) {
+      return res.json({
+        status: '1',
+        msg: '获取列表失败'
+      })
+    } else {
+      if (doc) {
+        return res.json({
+          status: '0',
+          data: doc,
+          msg: '获取列表成功'
+        })
+      }
+    }
+  })
+})
 module.exports = router;
