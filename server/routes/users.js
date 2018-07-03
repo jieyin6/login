@@ -118,6 +118,7 @@ router.post('/updateInfo', function (req, res, next) {
     } else {
       if (doc) {
         const data = Object.assign({}, doc, req.body)
+        res.cookie('userid', doc._id)
         res.json({
           status: '0',
           data: data

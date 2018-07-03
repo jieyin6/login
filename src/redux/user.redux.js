@@ -103,7 +103,7 @@ export function Update(data, user) {
             request: data.request
         }).then(res => {
             console.log(res.data.data)
-            if (res.data.state == 0) {
+            if (res.data.status == 0) {
                 dispatch(updateAction('/'))
             } else {
                 dispatch(errorTip(res.data.message))
@@ -120,7 +120,7 @@ export function Update(data, user) {
                 mine: data.mine
             }).then(res => {
                 console.log(res.data.data)
-                if (res.data.state == 0) {
+                if (res.data.status == 0) {
                     dispatch(updateAction('/'))
                 } else {
                     dispatch(errorTip(res.data.message))
